@@ -1,5 +1,8 @@
+using NUnit.Framework;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,12 +16,16 @@ public class GameManager : MonoBehaviour
 
     public GameObject tapText;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI healthText;
 
 
     int score = 0;
 
     Vector2 screenPos;
 
+    public Player player;
+
+    
 
     // Update is called once per frame
     void Update()
@@ -30,6 +37,8 @@ public class GameManager : MonoBehaviour
             gameStarted = true;
             tapText.SetActive(false);
         }
+
+        UpdateHealth(player.attribute.getCurrHealth());
     }
 
 
@@ -55,8 +64,12 @@ public class GameManager : MonoBehaviour
         worldPos.z = 0f;
 
         Instantiate(brickPref, worldPos, Quaternion.identity);
+        
+        score = player.attribute.getCurrScore();
 
         score++;
+
+        player.attribute.setCurrScore(score);
 
         UpdateText(score);
     }
@@ -66,5 +79,11 @@ public class GameManager : MonoBehaviour
     {
 
         scoreText.text = score.ToString();
+    }
+
+    void UpdateHealth(int health)
+    {
+
+        healthText.text = health.ToString();
     }
 }

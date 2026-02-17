@@ -9,11 +9,19 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
 
     [SerializeField] InputSys inputSys;
+
+    public DodgerAttributes attribute;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        attribute = new DodgerAttributes(10, 10, 0);
+
+        
     }
+
+    
 
     // Update is called once per frame
     void Update()
@@ -41,6 +49,7 @@ public class Player : MonoBehaviour
 
 
         Vector3 viewportPos = Camera.main.WorldToViewportPoint(rb.position);
+        
 
         if ((viewportPos.x <= 0f && moveDir < 0f) || (viewportPos.x >= 1f && moveDir > 0f))
         {
@@ -55,10 +64,23 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
+
         if (collision.gameObject.CompareTag("Brick"))
         {
-            SceneManager.LoadScene(0);
+            int currHealth = attribute.getCurrHealth();
+
+            currHealth--;
+
+            attribute.setCurrHealth(currHealth);
+
+            if (currHealth <= 0)
+            {
+                SceneManager.LoadScene(0);
+            }
         }
+
+
     }
 
 
