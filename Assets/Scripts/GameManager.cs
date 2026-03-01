@@ -7,7 +7,7 @@ using UnityEngine.SocialPlatforms.Impl;
 public class GameManager : MonoBehaviour
 {
 
-    public GameObject brickPref;
+    public GameObject[] brickPref;
 
     public float spawnRate;
 
@@ -63,7 +63,9 @@ public class GameManager : MonoBehaviour
         worldPos.y += 1f;
         worldPos.z = 0f;
 
-        Instantiate(brickPref, worldPos, Quaternion.identity);
+        int randBrick = Random.Range(0,brickPref.Length);
+
+        Instantiate(brickPref[randBrick], worldPos, Quaternion.identity);
         
         score = player.attribute.getCurrScore();
 
